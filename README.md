@@ -1,4 +1,4 @@
-# <h1 align = "center">  Application API </h1>
+# <h1 align = "center">  Training Center API </h1>
 ___ 
 <p align="center">
 <a href="Java url">
@@ -21,14 +21,13 @@ ___
 
 ## Overview
 
-The Blogging Management Application is a Spring Boot-based web application designed to help manage user,comment,post information. It allows users to perform various operations related to blogging management, including adding new comments and post, updating comments and post, and deleting comments and post from the system. When user sign in the system a token value for authentication is send to there registered email for confirmation of the user. And that token value is important while performing any task in system.
+The Training Center Management Application is a Spring Boot-based web application designed to facilitate the management of training centers. It enables users to perform various operations related to training center management, including creating new centers and retrieving details about existing centers. 
 
 ## Technologies Used
 
 - **Framework:** Spring Boot
 - **Language:** Java
 - **Build Tool:** Maven
-- **Cloud Services:** Amazon Web Services (AWS)
 - **Database:** MySql
 ## Data Flow
 
@@ -36,116 +35,27 @@ The Blogging Management Application is a Spring Boot-based web application desig
 
 The Controller layer is responsible for handling incoming HTTP requests and delegating them to the appropriate services. It defines API endpoints for the following operations:
 
-1. **Post User or User Sign Up:** `POST /users`
+1. **Post Centers:** `POST /centers`
    
-   This endpoint creates a user it is like as sign up in the system.
+   This endpoint creates a Training centers..
 
    ```java
-   @PostMapping("users")
-   public String userSignUp(@RequestBody User newUser) {
+   @PostMapping("centers")
+   public String creatingCenters(@RequestBody Center newUser) {
        
    }
    ```
 
-2. **User Sign In:** `Sign In /users`
+2. **GET Centers:** `GET /centers`
    
-   This endpoint received user email and password for sign in the system .
+   Tis endpoint get all the training centers.
 
    ```java
-   @PostMapping("users")
-   public String userSignIn(@RequestBody User newUser) {
-       
-   }
-   ```
-
-3. **Add Post:** `POST /blog post`
-   This endpoint adds a new post to the system and also recieved user email and token value for verify authentication.
-
-   ```java
-   @PostMapping("BlogPost")
-   public String createPost(@RequestParam String email,@RequestParam String tokenValue, @RequestBody Post instaPost){
-     
-    }
-   ```
-
-4. **Get Post:** `GET /Post Content`
-
-   This endpoint get all the post by its ID.
-
-   ```java
-   @GetMapping("BlogPost/{postId}")
-   public String getPostContentByPostId(@RequestParam String email, @RequestParam String tokenValue, @PathVariable Long postId){
-    }
-   ```
-
-5. **Update Post Location:** `PUT /post/id/{id}/location/{location}`
-
-   This endpoint updates the location of a post by its ID and needs a authentication for apply the changes in any task.
-
-   ```java
-   @PutMapping("BlogPost/Location/{location}/{postId}")
-   public String updatePostLocationByPostId(@RequestParam String email, @RequestParam String tokenValue, @PathVariable Long 
-   postId,@PathVariable String location){
-
-    }
-
-   ```
-
-6. **Delete Post:** `DELETE /Post/{id}`
-
-   This endpoint deletes a post by its ID.
-
-   ```java
-   @DeleteMapping("post/{id}")
-   public String deletePost(@PathVariable Integer id) {
-       
-   }
-   ```
-7. **Add Comment:** `POST /Comment`
-   This endpoint adds a new post to the system and also recieved user email and token value for verify authentication.
-
-   ```java
-   @PostMapping("comment/post/{postId}")
-   public String addComment(@RequestParam String email, @RequestParam String tokenValue, @PathVariable Long postId,@RequestBody String 
-   commentBody ){
+     @GetMapping("centers")
+   public List<Center> getAllCenters(){
        
     }
-   ```
-
-8. **Get Comment:** `GET /Comment`
-
-   This endpoint get all the comments by its post ID.
-
-   ```java
-   @GetMapping("comment/{postId}")
-    public List<String> getCommentByPostId(@RequestParam String email, @RequestParam String tokenValue, @PathVariable Long postId){
-      
-    }
-   ```
-
-9. **Update Comment Body:** `PUT /post/id/{id}/{newComment}`
-
-   This endpoint updates the comment body of a post by its ID and needs a authentication for apply the changes in any task.
-
-   ```java
-   @PutMapping("Edit/Comment/{commentId}/{newComment}")
-   public String editCommentByCommentId(@RequestParam String email, @RequestParam String tokenValue, @PathVariable Long 
-   commentId,@PathVariable String newComment){
-        return userService.editCommentByCommentId(email,tokenValue,commentId,newComment);
-    }
-
-   ```
-
-10. **Delete Comment:** `DELETE /comment/{id}`
-
-    This endpoint deletes a comment from post by its ID.
-
-    ```java
-    @DeleteMapping("comment/{id}")
-    public String deleteComment(@PathVariable Integer id) {
-       
-    }
-     ```
+   ``````
 ### Services
 
 The Services layer implements the core business logic, data processing, and interaction with the data repository. Key responsibilities include:
@@ -158,75 +68,29 @@ The Services layer implements the core business logic, data processing, and inte
 
 The Repository layer manages data access to the underlying database. It handles database operations such as Create, Read, Update, and Delete (CRUD) for restaurant data. Additionally, it may include data mapping and conversion between Java objects and database entities.
 
-## Data Structures Used
-
-1.ArrayList
-
 The project utilizes the following data structures:
 
-### User Class
+### Center Class
 
-The `User` class defines the structure for user data and includes the following fields:
+The `Center` class defines the structure data the following fields:
 
-- userId (Type: Long): An identifier for the user.
-- userName (Type: String): The user's full name.
-- userHandle (Type: String): A unique handle or username associated with the user, often used for identification or public display.
-- userEmail (Type: String): The email address associated with the user's account.
-- userPassword (Type: String): The password used for user authentication and access control.
-- userGender (Type: Gender): A variable representing the user's gender, which may be defined as an enumeration or a custom data type.
+- centerId (Type: Long): An identifier for the training center.
+- centerName (Type: String): The name of the training center.
+- centerCode (Type: String): A unique code assigned to the training center, typically alphanumeric and exactly 12 characters long.
+- address (Type: Address): An object representing the address of the training center, including detailed address, city, state, and pincode.
+- studentCapacity (Type: Integer): The maximum capacity of students the training center can accommodate.
+- coursesOffered (Type: List<String>): A list of courses offered by the training center.
+- createdOn (Type: LocalDateTime): A timestamp indicating when the training center was created.
+- contactEmail (Type: String): The email address associated with the training center for contact purposes.
+- contactPhone (Type: String): The phone number associated with the training center for contact purposes.
+### Address Class
 
-### Post Class
+The `Address` class defines the structure for address data and includes the following fields:
 
-The `Post` class defines the structure for post data and includes the following fields:
-
-- postId (Type: Integer): An identifier for the post.
-- postContent (Type: String): The content or text of the post.
-- postCaption (Type: String): A caption associated with the post.
-- postLocation (Type: String): The location where the post was created or is associated with.
-- postType (Type: PostType): A variable of type PostType that likely represents the type or category of the post.
-- postCreatedTimeStamp (Type: LocalDateTime): A timestamp indicating when the post was created or published.
-- postOwner (Type: User): An association with a "User" object, presumably representing the owner or author of the post.
-  
-### Comment Class
-
-The `Comment` class defines the structure for comment data and includes the following fields:
-
-- commentId (Type: Integer): An identifier for the comment.
-- commentBody (Type: String): The main content or text of the comment, which is marked as non-nullable.
-- commentCreationTimeStamp (Type: LocalDateTime): A timestamp indicating when the comment was created.
-
-### Type Enum
-
-The `Gender Type` enum enumerates the possible restaurant types:
-
-- `MALE`: 
-- `FEMALE`: 
-- `TRANS`: 
-- ...
-
-The `Post Type` enum enumerates the possible restaurant types:
-
-- `IMAGE`: 
-- `VIDEO`: 
-- `TEXT`: 
-- ...
-### Mapping
-
-The `Comment class` mappings are likes Many post have one comment and Many user can comment in post:
-
-- @ManyToOne
-    @JoinColumn(name = "fk_post_id")
-    private Post post;
-
-- @ManyToOne
-    @JoinColumn(name = "fk_commenter_id")
-    private User commenter;
-
-The `Post class` mappings are likes:
-
-- @ManyToOne
-    @JoinColumn(name = "fk_owner_user_id")
-    private User postOwner;
+- detailedAddress (Type: String): The detailed address, including street name, building number, etc.
+- city (Type: String): The city where the training center is located.
+- state (Type: String): The state where the training center is located.
+- pincode (Type: String): The postal code or ZIP code of the training center's location.
 
 ### MySql
 
@@ -236,17 +100,7 @@ These database enable the application to organize and manipulate blog data effic
 
 ## Project Summary
 
-A Blogging API System in Spring Boot is a web application that allows users to create, read, update, and delete blog posts through a set of RESTful APIs. Spring Boot, a popular Java framework, is used to streamline the development of such systems. Here's a summary of the key features and components typically found in a Blogging API System built with Spring Boot:
-
-Key Features:
-
-- RESTful API endpoints for blog management.
-- Data validation to ensure data integrity.
-- Clean code separation with a layered architecture (Controller, Services, Repository).
-- Robust error handling for improved reliability.
-- Java-based backend and Maven for build management.
-
-The Blogging Management Application serves as a practical example of Spring Boot application development, demonstrating best practices in API design and user data management. It offers a solid foundation for building and extending blogging management systems in various applications.
+The Training Center Management Application is a Spring Boot-based web application designed to streamline the management of training centers. It provides users with a platform to perform various operations related to training center management, such as creating, updating, and deleting centers, as well as retrieving details about existing centers.
 
 ## License
 
